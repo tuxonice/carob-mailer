@@ -33,7 +33,7 @@
                     <p>{{ Auth::user()->name }}</p>
                 </li>
                 <li class="user-footer">
-{{--                    <a href="{{ route('profile.edit') }}" class="btn btn-default btn-flat float-left">profile</a>--}}
+                    <a href="{{ route('profile.edit') }}" class="btn btn-default btn-flat float-left">profile</a>
                     <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <a href="{{ route('logout') }}"
