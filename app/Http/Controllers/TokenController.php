@@ -11,21 +11,22 @@ class TokenController extends Controller
     {
         $tokenList = $request->user()->tokens;
 
-
-
         return view('token.list', [
             'tokenList' => $tokenList,
         ]);
     }
 
-    public function create(Request $request): View
+    public function create(Request $request)
     {
-        $tokenList = $request->user()->tokens;
-
-        $title = $request->input('token-title');
-
-        return view('token.list', [
-            'tokenList' => $tokenList,
+        $request->validate([
+            'token-label' => 'required',
         ]);
+
+        $tokenLabel = $request->input('token-label');
+        $token = $request->user()->createToken($tokenLabel);
+
+        $message = 'Your token is: '. $token->plainTextToken;
+
+        return redirect()->route('token.list')->with('info', $message);
     }
 }

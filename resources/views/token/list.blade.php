@@ -15,32 +15,48 @@
         </div>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Create new token</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('token.create') }}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="token-label">Label</label>
+                                        <input type="text" class="form-control" name="token-label" id="token-label" placeholder="My token">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal -->
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Create new token</h3>
-                        </div>
-                        <form method="post" action="{{ route('token.create') }}">
-                            @csrf
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="token-title">Token Title</label>
-                                    <input type="text" class="form-control" id="token-title" name="token-title" value="" placeholder="Token title">
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Create</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12">
+                    <x-flash-messages></x-flash-messages>
+
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Token List</h3>
@@ -50,25 +66,28 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Title</th>
+                                    <th>Created At</th>
                                     <th>Last Used At</th>
-                                    <th>Expires At</th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($tokenList as $token)
                                     <tr>
-                                        <td>{{ $token->id }}</td>
                                         <td>{{ $token->name }}</td>
+                                        <td>{{ $token->created_at }}</td>
                                         <td>{{ $token->last_used_at }}</td>
-                                        <td>{{ $token->expires_at }}</td>
                                         <td><i class="fas fa-solid fa-check text-green"></i></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                                Create new token
+                            </button>
                         </div>
                     </div>
                 </div>
