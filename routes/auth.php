@@ -18,7 +18,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-
     if (config('app.registration_enabled')) {
         Route::get('register', [RegisteredUserController::class, 'create'])
             ->name('register');
