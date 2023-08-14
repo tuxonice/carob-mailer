@@ -30,4 +30,16 @@ class TokenController extends Controller
 
         return redirect()->route('token.list')->with('info', $message);
     }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'token-id' => 'required|integer',
+        ]);
+
+        $tokenId = $request->input('token-id');
+        $request->user()->tokens()->where('id', $tokenId)->delete();
+
+        return redirect()->route('token.list');
+    }
 }

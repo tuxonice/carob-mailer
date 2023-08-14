@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/token/list', [TokenController::class, 'list'])->name('token.list');
     Route::post('/token/create', [TokenController::class, 'create'])->name('token.create');
+    Route::post('/token/destroy', [TokenController::class, 'destroy'])->name('token.destroy');
 });
 
 require __DIR__.'/auth.php';

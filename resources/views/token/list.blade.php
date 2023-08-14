@@ -78,7 +78,15 @@
                                         <td>{{ $token->name }}</td>
                                         <td>{{ $token->created_at }}</td>
                                         <td>{{ $token->last_used_at }}</td>
-                                        <td><i class="fas fa-solid fa-check text-green"></i></td>
+                                        <td>
+                                            <form action="{{ route('token.destroy') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="token-id" value="{{ $token->id }}"/>
+                                                <button type="submit" class="btn btn-danger btn-block">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
