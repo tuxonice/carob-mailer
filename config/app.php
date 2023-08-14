@@ -185,4 +185,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'registration_enabled' => env('REGISTRATION_ENABLED', false),
+
 ];
