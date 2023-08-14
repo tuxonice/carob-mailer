@@ -29,6 +29,6 @@ class SendEmail implements ShouldQueue
     public function handle(): void
     {
         Mail::to($this->mail->email_to)->send(new MailSent($this->mail));
-        Log::info($this->mail->id . ' Email sent at ' . date('Y-m-d H:i:s'));
+        Log::info($this->mail->id.' Email sent at '.date('Y-m-d H:i:s'));
     }
 }

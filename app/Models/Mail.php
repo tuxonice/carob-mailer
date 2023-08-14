@@ -10,6 +10,4 @@ class Mail extends Model
     use HasFactory;
 
     protected $table = 'emails';
-
-
 }

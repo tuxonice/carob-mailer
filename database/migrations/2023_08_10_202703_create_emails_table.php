@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
-            $table->string('email_to',128);
+            $table->string('email_to', 128);
             $table->string('subject', 512);
             $table->text('body');
             $table->boolean('is_sent')->default(false);
