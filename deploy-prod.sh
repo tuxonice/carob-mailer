@@ -26,5 +26,11 @@ ln -s ../../shared/storage storage
 
 cd ../../
 
+cat > cron-run.sh << EOF
+#!/bin/sh
+
+php $(pwd)/releases/$release_name/artisan schedule:run
+EOF
+
 rm current
 ln -s "releases/$release_name/public/" current
