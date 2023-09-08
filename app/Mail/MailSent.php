@@ -40,7 +40,8 @@ class MailSent extends Mailable
     public function content(): Content
     {
         return new Content(
-            html: 'emails.send',
+            html: 'emails.html',
+            text: 'emails.text',
         );
     }
 
