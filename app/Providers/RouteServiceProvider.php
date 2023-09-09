@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::domain('api.' . env('APP_URL'))
+            Route::domain('api.'.env('APP_URL'))
                 ->middleware('api')
                 ->group(base_path('routes/api.php'));
 

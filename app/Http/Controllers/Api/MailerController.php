@@ -22,7 +22,7 @@ class MailerController extends Controller
                 'to.email' => 'required|email',
                 'subject' => 'required|max:255',
                 'body.text' => 'present',
-                'body.html' => 'required'
+                'body.html' => 'required',
             ]);
 
             $validator->validate();
