@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f79adc65a3550bd6843630b795d5469d",
+    "content-hash": "bddb3f22aad92bdbc84adf5cb14e28f8",
     "packages": [
         {
             "name": "brick/math",
@@ -1809,16 +1809,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.0.3",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "7fbe81ce113a17bd92687174cd79a4791bd40764"
+                "reference": "23d035b6353c6dfe7ea9c8d288295dbbb46ef84a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/7fbe81ce113a17bd92687174cd79a4791bd40764",
-                "reference": "7fbe81ce113a17bd92687174cd79a4791bd40764",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/23d035b6353c6dfe7ea9c8d288295dbbb46ef84a",
+                "reference": "23d035b6353c6dfe7ea9c8d288295dbbb46ef84a",
                 "shasum": ""
             },
             "require": {
@@ -1832,6 +1832,7 @@
             "require-dev": {
                 "calebporzio/sushi": "^2.1",
                 "laravel/framework": "^10.0",
+                "laravel/prompts": "^0.1.6",
                 "mockery/mockery": "^1.3.1",
                 "orchestra/testbench": "^7.0|^8.0",
                 "orchestra/testbench-dusk": "^7.0|^8.0",
@@ -1870,7 +1871,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.0.3"
+                "source": "https://github.com/livewire/livewire/tree/v3.0.4"
             },
             "funding": [
                 {
@@ -1878,7 +1879,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-12T15:08:50+00:00"
+            "time": "2023-09-14T22:57:11+00:00"
         },
         {
             "name": "monolog/monolog",
