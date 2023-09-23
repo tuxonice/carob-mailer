@@ -6,9 +6,11 @@ use App\Models\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class MailSent extends Mailable
 {
@@ -29,8 +31,9 @@ class MailSent extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), $this->mail->from_name),
-            subject: $this->mail->subject,
+            from: new Address(env('MAIL_FROM_ADDRESS'), $this->mail->getFromName()),
+            to: [new Address($this->mail->getToEmail(), $this->mail->getToName())],
+            subject: $this->mail->getSubject(),
         );
     }
 
@@ -52,6 +55,18 @@ class MailSent extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = json_decode($this->mail->getAttachments(), true) ?? [];
+
+        $files = [];
+        foreach ($attachments as $attachment) {
+            $resource = Storage::disk('attachments')->readStream($attachment['attachFileName']);
+            $mimeContentType = mime_content_type($resource);
+
+            $files[] = Attachment::fromStorageDisk('attachments', $attachment['attachFileName'])
+                ->as($attachment['originalFileName'])
+                ->withMime($mimeContentType);
+        }
+
+        return $files;
     }
 }

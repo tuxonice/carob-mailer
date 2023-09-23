@@ -80,7 +80,13 @@ curl --location --request POST 'http://api.carob-mailer.local/mailer/send' \
     "body": {
         "text": "Simplicity is the essence of happiness.",
         "html": "<i>Simplicity</i> is the essence of <b>happiness.</b>"
-    }
+    },
+    "attachments": [
+        {
+            "base64Content": "VGhpcyBpcyBhIGJhc2UgNjQgc3RyaW5n",
+            "originalFileName": "sample.txt"
+        }   
+    ]
 }'
 ````
 

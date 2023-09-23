@@ -18,4 +18,4 @@ yarn-error.log
 /public/dist
 /public/plugins
 /public/mix-manifest.json
-
+/storage/attachments/

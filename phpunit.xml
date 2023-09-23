@@ -27,5 +27,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="REGISTRATION_ENABLED" value="true"/>
+        <env name="MAIL_FROM_ADDRESS" value="noreply@example.com"/>
     </php>
 </phpunit>

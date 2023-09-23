@@ -10,6 +10,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use stdClass;
 
 class SendEmail implements ShouldQueue
 {
@@ -28,7 +30,16 @@ class SendEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->mail->to_email)->send(new MailSent($this->mail));
-        Log::info($this->mail->id.' Email sent at '.date('Y-m-d H:i:s'));
+        Mail::send(new MailSent($this->mail));
+        $this->deleteAttachmentsFromStorage($this->mail->getAttachments());
+        Log::info($this->mail->getId().' Email sent at '.date('Y-m-d H:i:s'));
+    }
+
+    private function deleteAttachmentsFromStorage(string $attachments): void
+    {
+        $attachments = json_decode($attachments);
+
+        $files = array_map(fn (stdClass $attachment) => $attachment->attachFileName, $attachments);
+        Storage::disk('attachments')->delete($files);
     }
 }
