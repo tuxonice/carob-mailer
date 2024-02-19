@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SenderController;
 use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/token/list', [TokenController::class, 'list'])->name('token.list');
     Route::post('/token/create', [TokenController::class, 'create'])->name('token.create');
     Route::post('/token/destroy', [TokenController::class, 'destroy'])->name('token.destroy');
+
+    Route::get('/sender/list', [SenderController::class, 'list'])->name('sender.list');
 });
 
 require __DIR__.'/auth.php';
