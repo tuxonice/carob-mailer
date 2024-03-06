@@ -10,7 +10,7 @@
         "laravel/framework": "10.46.0",
         "laravel/sanctum": "3.3.3",
         "laravel/tinker": "2.9.0",
-        "livewire/livewire": "3.4.6",
+        "livewire/livewire": "3.4.7",
         "ext-fileinfo": "*"
     },
     "require-dev": {
