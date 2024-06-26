@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mail extends Model
 {
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
 
     protected $table = 'emails';
