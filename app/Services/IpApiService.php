@@ -26,7 +26,7 @@ class IpApiService
         }
 
         try {
-            $response = Http::get( self::API_URL.$ipAddress);
+            $response = Http::get(self::API_URL.$ipAddress);
             $data = json_decode($response->getBody(), true);
 
             if (isset($data['status']) && $data['status'] === 'success' && isset($data['countryCode'])) {
