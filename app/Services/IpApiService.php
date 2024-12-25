@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Client;
+use Exception;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class IpApiService
@@ -25,29 +26,20 @@ class IpApiService
         }
 
         try {
-
-            $client = new Client();
-
-            // Send a GET request to the API
-            $response = $client->request('GET', self::API_URL.$ipAddress);
-
-            // Decode the JSON response
+            $response = Http::get( self::API_URL.$ipAddress);
             $data = json_decode($response->getBody(), true);
 
-            if (! isset($data['status']) || $data['status'] != 'success') {
-                return null;
-            }
-
-            // Check if the country is set in the response
-            if (isset($data['countryCode'])) {
-                // Cache the result for 24 hours
+            if (isset($data['status']) && $data['status'] === 'success' && isset($data['countryCode'])) {
                 Cache::put($cacheKey, $data['countryCode'], now()->addDay());
+                Log::info('Get country code: '.$ipAddress.' - '.$data['countryCode']);
 
                 return $data['countryCode'];
             }
+            Log::warning('Could not get country code: '.$ipAddress.' - '.$data['message']);
+            Cache::put($cacheKey, '', now()->addDays(5));
 
             return null;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
 
             return null;
