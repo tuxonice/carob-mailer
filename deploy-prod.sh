@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Usage: ./deploy-prod.sh {tag or commit}
 # Folder structure
 # main-folder
@@ -28,7 +30,7 @@ composer install --no-dev
 npm install
 npm run prod
 
-rm .editorconfig .env.example deploy-prod.sh .gitattributes .gitignore README.md docker-compose.yml phpstan.neon phpunit.xml renovate.json
+rm .editorconfig .env.example deploy-prod.sh Makefile .gitattributes .gitignore README.md docker-compose.yml phpstan.neon phpunit.xml renovate.json
 rm -rf tests .github .git storage
 
 ln -s $MAIN_PATH/shared/.env .env
