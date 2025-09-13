@@ -11,6 +11,11 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [ '8.3', '8.4' ]
+    name: PHP ${{ matrix.php-version }}
     steps:
       - uses: actions/checkout@v4
       - name: Copy .env
@@ -18,7 +23,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2e947f1f6932d141d076ca441d0e1e881775e95b
         with:
-          php-version: '8.2'
+          php-version: ${{ matrix.php-version }}
           extensions: :psr
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
