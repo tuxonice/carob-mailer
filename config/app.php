@@ -186,5 +186,8 @@ return [
     ])->toArray(),
 
     'registration_enabled' => env('REGISTRATION_ENABLED', false),
+    'api_url' => env('API_URL', 'http://localhost'),
+    'allow_country_code' => env('ALLOW_COUNTRY_CODE', false),
+    'mail_from_address' => env('MAIL_FROM_ADDRESS'),
 
 ];

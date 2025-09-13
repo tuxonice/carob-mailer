@@ -31,7 +31,7 @@ class MailSent extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), $this->mail->getFromName()),
+            from: new Address(config('app.mail_from_address'), $this->mail->getFromName()),
             to: [new Address($this->mail->getToEmail(), $this->mail->getToName())],
             subject: $this->mail->getSubject(),
         );

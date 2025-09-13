@@ -38,7 +38,7 @@ pint-test: ##@setup run code style checker
 .PHONY: pint-test
 
 phpstan: ##@setup run phpstan
-	vendor/bin/sail shell -c vendor/bin/phpstan --memory-limit=400M
+	vendor/bin/sail shell -c vendor/bin/phpstan analise --memory-limit=400M
 .PHONY: phpstan
 
 tests: ##@setup run tests

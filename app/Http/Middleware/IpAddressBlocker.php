@@ -18,7 +18,7 @@ class IpAddressBlocker
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $allowCountryCode = env('ALLOW_COUNTRY_CODE') ?: null;
+        $allowCountryCode = config('app.allow_country_code') ?: null;
 
         if ($allowCountryCode && strtolower($this->ipApiService->getCountryByIp($request->ip())) !== $allowCountryCode) {
             abort(404);
