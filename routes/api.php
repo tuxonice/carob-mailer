@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->post('/mailer/send', [MailerController::class, 'send']);
+// Add throttle middleware to limit requests to 60 per minute
+Route::middleware(['auth:sanctum', 'throttle:20,1'])->post('/mailer/send', [MailerController::class, 'send']);

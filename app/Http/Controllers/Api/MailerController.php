@@ -66,7 +66,7 @@ class MailerController extends Controller
             return response()->json([
                 'error' => $exception->getMessage(),
                 'status' => false,
-            ]);
+            ], 422);
         }
 
         return response()->json([

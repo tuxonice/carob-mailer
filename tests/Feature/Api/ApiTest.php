@@ -68,11 +68,10 @@ class ApiTest extends TestCase
                 ],
             ]
         );
-        $response->assertOk();
+        $response->assertStatus(422);
         $this->assertEquals([
             'error' => 'The from.name field is required.',
             'status' => false,
-
         ], $response->json());
     }
 
@@ -100,11 +99,10 @@ class ApiTest extends TestCase
                 ],
             ]
         );
-        $response->assertOk();
+        $response->assertStatus(422);
         $this->assertEquals([
             'error' => 'The to.name field is required.',
             'status' => false,
-
         ], $response->json());
     }
 
@@ -132,11 +130,10 @@ class ApiTest extends TestCase
                 ],
             ]
         );
-        $response->assertOk();
+        $response->assertStatus(422);
         $this->assertEquals([
             'error' => 'The to.email field must be a valid email address.',
             'status' => false,
-
         ], $response->json());
     }
 
@@ -164,11 +161,10 @@ class ApiTest extends TestCase
                 ],
             ]
         );
-        $response->assertOk();
+        $response->assertStatus(422);
         $this->assertEquals([
             'error' => 'The body.html field is required.',
             'status' => false,
-
         ], $response->json());
     }
 
@@ -246,11 +242,10 @@ class ApiTest extends TestCase
                 ],
             ]
         );
-        $response->assertOk();
+        $response->assertStatus(422);
         $this->assertEquals([
             'error' => 'The attachments.0.base64Content must be a base 64 encoded string.',
             'status' => false,
-
         ], $response->json());
     }
 }

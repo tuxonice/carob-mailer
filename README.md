@@ -98,4 +98,34 @@ Go to ```http://[domain]```
 
 2. Create new authentication api token to be used on api request
 
+## Country-Based Access Restriction
+
+Carob Mailer includes an IP address blocking middleware that can restrict API access based on the country of origin.
+
+### Configuration
+
+To enable country-based access restriction, add the following to your `.env` file:
+
+```
+ALLOW_COUNTRY_CODE=us
+```
+
+Replace `us` with the two-letter country code you want to allow. The comparison is case-insensitive.
+
+### How It Works
+
+- When configured, the middleware checks the origin country of each request using the IP-API service
+- Only requests from the specified country are allowed
+- Requests from other countries receive a 404 Not Found response
+- If no country code is specified, all requests are allowed
+
+### Middleware Registration
+
+The middleware is already registered in the HTTP kernel. To apply it to specific routes, add it to your route definitions:
+
+```php
+Route::middleware(['ip.blocker'])->group(function () {
+    // Protected routes
+});
+```
 
