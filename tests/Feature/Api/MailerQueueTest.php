@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Jobs\SendEmail;
 use App\Models\Mail;
 use App\Models\User;
+use App\Services\MailDeliveryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
@@ -82,18 +83,13 @@ class MailerQueueTest extends TestCase
         \Illuminate\Support\Facades\Mail::fake();
 
         // Process the job
-        $job->handle();
+        $mailDeliveryService = app(MailDeliveryService::class);
+        $job->handle($mailDeliveryService);
 
         // Assert that an email was sent
         \Illuminate\Support\Facades\Mail::assertSent(\App\Mail\MailSent::class, function ($mailable) use ($mail) {
             return $mailable->mail->getId() === $mail->getId();
         });
-
-        // Note: The SendEmail job doesn't currently update the is_sent field
-        // In a real implementation, we would expect the job to update this field
-        // For testing purposes, we'll manually update it
-        $mail->setIsSent(true);
-        $mail->save();
 
         // Refresh the mail model from the database
         $mail->refresh();

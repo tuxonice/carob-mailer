@@ -30,8 +30,9 @@ Transactional Email API Service built on top of laravel
 
 6. Setup database and mail credentials in .env file
 
-
 7. Setup webserver to point document root to public folder
+
+8. Setup Laravel scheduler (add `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1` to crontab)
 
 
 ## API Usage
@@ -97,6 +98,20 @@ Go to ```http://[domain]```
 1. Login or create a new account
 
 2. Create new authentication api token to be used on api request
+
+## Email Delivery
+
+Emails are queued via Laravel jobs and processed by queue workers. A cron-based fallback command (`emails:send-pending`) runs every minute to process any pending emails if queue workers are unavailable or stopped.
+
+The scheduler automatically handles both:
+- Running `queue:work --stop-when-empty` every minute
+- Running `emails:send-pending` every minute as a fallback
+
+You can manually trigger the fallback command if needed:
+
+```
+php artisan emails:send-pending --limit=200
+```
 
 ## Country-Based Access Restriction
 

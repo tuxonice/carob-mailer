@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Jobs\SendEmail;
 use App\Models\Mail;
 use App\Models\User;
+use App\Services\MailDeliveryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail as MailFacade;
@@ -35,7 +36,8 @@ class MailerImprovementsTest extends TestCase
         MailFacade::fake();
 
         // Process the job
-        $job->handle();
+        $mailDeliveryService = app(MailDeliveryService::class);
+        $job->handle($mailDeliveryService);
 
         // Refresh the mail model from the database
         $mail->refresh();
@@ -68,8 +70,8 @@ class MailerImprovementsTest extends TestCase
         // Mock the Log facade
         Log::shouldReceive('error')
             ->once()
-            ->withArgs(function ($message) use ($mail) {
-                return strpos($message, $mail->getId().' Email sending failed: Test exception') !== false;
+            ->withArgs(function ($message, $context) use ($mail) {
+                return strpos($message, sprintf('Email #%d sending failed: Test exception', $mail->getId())) !== false;
             });
 
         // Expect an exception to be thrown
@@ -77,19 +79,18 @@ class MailerImprovementsTest extends TestCase
         $this->expectExceptionMessage('Test exception');
 
         // Process the job
-        $job->handle();
+        $mailDeliveryService = app(MailDeliveryService::class);
+        $job->handle($mailDeliveryService);
     }
 
     public function test_rate_limiting_on_api_endpoint(): void
     {
-        $this->markTestSkipped('Need improvement');
-        // This test simulates hitting the rate limit
+        // Fake the queue to prevent actual job processing
+        \Illuminate\Support\Facades\Bus::fake();
 
         // Authenticate
-        Sanctum::actingAs(
-            User::factory()->create(),
-            ['*']
-        );
+        $user = User::factory()->create();
+        Sanctum::actingAs($user, ['*']);
 
         // Create a valid email request
         $emailData = [
@@ -107,25 +108,16 @@ class MailerImprovementsTest extends TestCase
             ],
         ];
 
-        // Mock the rate limiter
-        $this->withMiddleware(['throttle:2,1']); // Override to 2 requests per minute for testing
+        // The route is configured with throttle:20,1 (20 requests per minute)
+        // Make 20 successful requests
+        for ($i = 0; $i < 20; $i++) {
+            $response = $this->postJson(env('API_URL').'/mailer/send', $emailData);
+            $response->assertOk();
+            $this->assertEquals(true, $response->json()['status']);
+        }
 
-        // First request should succeed
-        $response1 = $this->post(env('API_URL').'/mailer/send', $emailData);
-        $response1->assertOk();
-        $this->assertEquals(true, $response1->json()['status']);
-
-        // Second request should succeed
-        $response2 = $this->post(env('API_URL').'/mailer/send', $emailData);
-        $response2->assertOk();
-        $this->assertEquals(true, $response2->json()['status']);
-
-        // Third request should be rate limited
-        // Note: In a real test environment, this would actually be rate limited
-        // but in the test environment, the rate limiter might be disabled
-        // This is more of a demonstration of how to test rate limiting
-
-        // For a real test, you would need to configure the rate limiter for testing
-        // and verify the response status code is 429 (Too Many Requests)
+        // The 21st request should be rate limited
+        $response = $this->postJson(env('API_URL').'/mailer/send', $emailData);
+        $response->assertStatus(429); // Too Many Requests
     }
 }
