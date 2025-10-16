@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Middleware\BridgeCustomTokenToBearer;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -24,6 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(\App\Http\Middleware\IpAddressBlocker::class);
+        $middleware->group('api', [
+            BridgeCustomTokenToBearer::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
