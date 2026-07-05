@@ -188,6 +188,7 @@ return [
     'registration_enabled' => env('REGISTRATION_ENABLED', false),
     'api_url' => env('API_URL', 'http://localhost'),
     'allow_country_code' => env('ALLOW_COUNTRY_CODE', false),
+    'allow_ips' => array_filter(explode(',', env('ALLOW_IPS', ''))),
     'mail_from_address' => env('MAIL_FROM_ADDRESS'),
 
 ];

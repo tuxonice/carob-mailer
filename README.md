@@ -121,9 +121,12 @@ To enable country-based access restriction, add the following to your `.env` fil
 
 ```
 ALLOW_COUNTRY_CODE=us
+ALLOW_IPS="192.168.1.100,10.0.0.1"
 ```
 
 Replace `us` with the two-letter country code you want to allow. The comparison is case-insensitive.
+
+`ALLOW_IPS` accepts a comma-separated list of IP addresses that will bypass the country check. Leave it empty to disable IP-based allowlisting.
 
 ### How It Works
 

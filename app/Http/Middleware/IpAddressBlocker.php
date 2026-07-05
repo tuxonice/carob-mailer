@@ -18,9 +18,16 @@ class IpAddressBlocker
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $requestIp = $request->ip();
+        $allowedIps = config('app.allow_ips', []);
+
+        if (in_array($requestIp, $allowedIps, true)) {
+            return $next($request);
+        }
+
         $allowCountryCode = config('app.allow_country_code') ?: null;
 
-        if ($allowCountryCode && strtolower($this->ipApiService->getCountryByIp($request->ip())) !== $allowCountryCode) {
+        if ($allowCountryCode && strtolower($this->ipApiService->getCountryByIp($requestIp)) !== $allowCountryCode) {
             abort(404);
         }
 

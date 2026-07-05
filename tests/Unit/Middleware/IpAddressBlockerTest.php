@@ -33,6 +33,28 @@ class IpAddressBlockerTest extends TestCase
         parent::tearDown();
     }
 
+    public function test_allows_request_when_ip_is_in_allowed_list(): void
+    {
+        // Set allowed IPs and a mismatched country code
+        Config::set('app.allow_ips', ['192.168.1.1']);
+        Config::set('app.allow_country_code', 'us');
+
+        // Create a request with an allowed IP
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '192.168.1.1');
+
+        // The IpApiService should not be called because the IP is allowed
+        $this->ipApiService->shouldNotReceive('getCountryByIp');
+
+        // The middleware should allow the request to pass through
+        $response = $this->middleware->handle($request, function ($req) {
+            return response('OK');
+        });
+
+        // Assert that the response is what we expect
+        $this->assertEquals('OK', $response->getContent());
+    }
+
     public function test_allows_request_when_country_matches(): void
     {
         // Set the allowed country code
@@ -60,6 +82,30 @@ class IpAddressBlockerTest extends TestCase
     public function test_blocks_request_when_country_does_not_match(): void
     {
         // Set the allowed country code
+        Config::set('app.allow_country_code', 'us');
+
+        // Create a request with a test IP
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '192.168.1.2');
+
+        // Mock the IpApiService to return a different country code
+        $this->ipApiService->shouldReceive('getCountryByIp')
+            ->once()
+            ->with('192.168.1.2')
+            ->andReturn('ca');
+
+        // The middleware should block the request with a 404
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->middleware->handle($request, function ($req) {
+            return response('OK');
+        });
+    }
+
+    public function test_blocks_request_when_ip_not_allowed_and_country_does_not_match(): void
+    {
+        // Set allowed IPs that do not include the request IP
+        Config::set('app.allow_ips', ['192.168.1.100']);
         Config::set('app.allow_country_code', 'us');
 
         // Create a request with a test IP
