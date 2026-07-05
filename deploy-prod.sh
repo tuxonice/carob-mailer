@@ -27,8 +27,6 @@ git clone https://github.com/tuxonice/carob-mailer.git .
 git checkout $release_name
 
 composer install --no-dev
-npm install
-npm run prod
 
 rm .editorconfig .env.example deploy-prod.sh Makefile .gitattributes .gitignore README.md docker-compose.yml phpstan.neon phpunit.xml renovate.json
 rm -rf tests .github .git storage

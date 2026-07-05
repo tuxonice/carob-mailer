@@ -12,13 +12,11 @@ Transactional Email API Service built on top of laravel
 
 2. Install dependencies
 
-``` composer install --no-dev```
+``` vendor/bin/sail composer install --no-dev ```
 
-3. Build frontend
+3. Build frontend assets
 
-``` npm install ```
-
-``` npm run prod ```
+``` vendor/bin/sail composer copy-assets ```
 
 4. Create .env file
 
