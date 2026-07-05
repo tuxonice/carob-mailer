@@ -41,15 +41,21 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
+        "post-install-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@composer copy-assets"
+        ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@composer copy-assets"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "copy-assets": "@php scripts/copy-assets.php"
     },
     "extra": {
         "laravel": {

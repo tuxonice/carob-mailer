@@ -29,6 +29,10 @@ composer-install: ##@setup install dependencies
 	vendor/bin/sail composer install
 .PHONY: composer-install
 
+copy-assets: ##@setup copy frontend assets to public
+	vendor/bin/sail composer copy-assets
+.PHONY: copy-assets
+
 pint: ##@setup run code style fixer
 	vendor/bin/sail shell -c vendor/bin/pint
 .PHONY: pint
